@@ -1,39 +1,23 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
 import "./index.css";
-import CaptionGenerator from "./pages/CaptionGenerator";
+import Home from "./pages/Home";
 
-function Home() {
-  return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center gap-6 px-6 text-center">
-      <h1 className="text-7xl font-amarna font-bold text-primary">
-        D.A.S.H
-      </h1>
-      <h3 className="text-3xl font-indie text-secondary">
-        &gt; Document And Social Hub
-      </h3>
-      <p className="max-w-3xl text-lg text-muted-foreground leading-relaxed font-mono">
-        D.A.S.H is an open-source, self-hosted documentation web app for generating
-        meeting minutes, captions, and letters from audio or video. Privacy-first
-        design with temporary processing, template-driven outputs, and no permanent
-        data storage. Built for local control and student-friendly use.
-      </p>
-
-      <Link
-        to="/captions"
-        className="mt-6 px-6 py-3 bg-primary text-white rounded-lg font-mono hover:opacity-90 transition"
-      >
-        Caption Generator
-      </Link>
-    </div>
-  );
-}
+const CaptionGenerator = lazy(() => import("./pages/CaptionGenerator"));
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/captions" element={<CaptionGenerator />} />
+        <Route
+          path="/captions"
+          element={
+            <Suspense fallback={<div className="p-10 text-center">Loading Generator...</div>}>
+              <CaptionGenerator />
+            </Suspense>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

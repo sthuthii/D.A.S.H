@@ -8,14 +8,26 @@ node_modules/
 .DS_Store
 Thumbs.db
 
-# Logs
+
+# Build outputs
+dist/
+build/
+out/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs and coverage
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+coverage/
+.nyc_output/
 
-# Temporary files from debugging
-output.txt
-res.txt
-res_gpt2.txt
-res_qwen.txt
-test_req.py
+# Temporary files
+*.swp
+*.swo
+.DS_Store
