@@ -16,11 +16,19 @@ export async function generateCaption(payload: CaptionRequest): Promise<string> 
     }
   );
 
-  const data = await response.json();
+  try {
+    const data = await response.json();
 
-  if (!response.ok || !data.success) {
-    throw new Error("Caption generation failed");
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Caption generation failed");
+    }
+
+    return data.caption;
+  } catch (err) {
+    if (err instanceof Error) {
+      throw err;
+    }
+    // Fallback for non-JSON errors or network failures
+    throw new Error("Failed to connect to caption service");
   }
-
-  return data.caption;
 }

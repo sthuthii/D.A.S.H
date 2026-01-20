@@ -89,13 +89,7 @@ export default function CaptionGenerator() {
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <h3 className="font-semibold text-lg">Generated Caption:</h3>
-            <button
-              type="button"
-              onClick={() => navigator.clipboard.writeText(caption)}
-              className="px-3 py-1 bg-secondary text-secondary-foreground rounded text-sm hover:opacity-80 transition"
-            >
-              Copy
-            </button>
+            <CopyButton text={caption} />
           </div>
           <textarea
             className="w-full p-3 border rounded h-40"
@@ -109,3 +103,28 @@ export default function CaptionGenerator() {
     </div>
   );
 }
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="px-3 py-1 bg-secondary text-secondary-foreground rounded text-sm hover:opacity-80 transition min-w-[4rem]"
+    >
+      {copied ? "Copied!" : "Copy"}
+    </button>
+  );
+}
+
